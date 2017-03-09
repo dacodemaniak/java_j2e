@@ -7,12 +7,10 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-
   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.webprojet.test.ServletLogin</servlet-class>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/login</url-pattern>

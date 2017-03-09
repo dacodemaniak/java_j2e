@@ -1,18 +1,18 @@
-package com.webprojet.test;
+package com.webprojet.web;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.webprojet.web.authentification.Utilisateur;
+
 /**
  * Servlet implementation class ServletLogin
  */
-@WebServlet(description = "Processus d'identification sur mon application", urlPatterns = { "/ServletLogin" })
+@WebServlet(description = "Service d'identification d'un utilisateur et de redirection", urlPatterns = { "/ServletLogin" })
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -28,23 +28,24 @@ public class ServletLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter html = response.getWriter();
+		// TODO Récupérer les deux "champs" du formulaire
+		String login = request.getParameter("login");
+		String pass = request.getParameter("pass");
 		
-		String page = "<!doctype html><html><head><title>Hello JSP !</title></head><body>";
-		
-		String identifiant = request.getParameter("login");
-		String password = request.getParameter("pass");
-		
-		page += "<h1>Bienvenue</h1>";
-		
-		// On peut utiliser le paramètre "nom" ici...
-		if(identifiant != null && identifiant.length() > 0){
-			page += "<div><a href=\"#\" title=\"Déconnexion\" role=\"button\" class=\"btn btn-warning\">" + identifiant + "</a></div>";
+		if(login.length() > 0 && pass.length() > 0){
+			// TODO Lancer le processus d'identification
+			Utilisateur utilisateur = new Utilisateur();
+			utilisateur.setLogin(login);
+			utilisateur.setPassword(pass);
+			if(utilisateur.process()){
+				// Okay, c'est bon, on est identifié => ajout de utilisateur à la session, et redirection vers index.jsp
+			} else {
+				// Il y a une erreur d'authentification => on reste sur la page de login avec un petit message d'erreur
+			}
 		}
-		page += "</body></html>";
 		
-		html.write(page); // Envoyer la page vers le Client
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
