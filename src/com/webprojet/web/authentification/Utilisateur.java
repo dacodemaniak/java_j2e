@@ -9,8 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.webprojet.persistence.mysql.MySQL;
+import javax.servlet.http.HttpServletRequest;
+
 import com.webprojet.reservation.util.*;
+import com.webprojet.persistence.*;
+import com.webprojet.persistence.mysql.*;
+
 
 /**
  * @author DaCodeManiak
@@ -32,17 +36,34 @@ public class Utilisateur {
 		this.password = password;
 	}
 	
+	public String getNom(){
+		return this.nom;
+	}
+	
 	public boolean process(){
-		MySQL base = new MySQL(new ReservationSetup());
+		/**
+		 * Booléen qui saura me dire si oui ou non on est authentifié
+		 */
+		boolean authentication = false;
 		
-		// TODO Récupérer un éventuel "sel" en fonction du login
-		this.salt = this.getSalt(base);
-		
-		if(this.salt != null){
-			// Okay, j'ai bien un utilisateur qui correspond, mais a-t-il saisi le bon mot de passe
-			return this.authenticate(base);
+		try{
+			/**
+			 * ReservationSetup contient les informations de connexion MySQL
+			 */
+			ReservationSetup setup = new ReservationSetup();
+			MySQL base = new MySQL(setup);
+			// TODO Récupérer un éventuel "sel" en fonction du login
+			this.salt = this.getSalt(base);
+			
+			if(this.salt != null){
+				// Okay, j'ai bien un utilisateur qui correspond, mais a-t-il saisi le bon mot de passe
+				authentication = this.authenticate(base);
+			}
+		} catch(NoClassDefFoundError e){
+			System.out.println(e.getMessage());
 		}
-		return false;
+		
+		return authentication;
 	}
 	
 	private String getSalt(MySQL base){

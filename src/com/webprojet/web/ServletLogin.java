@@ -29,6 +29,7 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Récupérer les deux "champs" du formulaire
+		request.setCharacterEncoding("UTF-8"); // Pour indiquer à Java d'encoder les paramètres en UTF-8
 		String login = request.getParameter("login");
 		String pass = request.getParameter("pass");
 		
@@ -39,6 +40,8 @@ public class ServletLogin extends HttpServlet {
 			utilisateur.setPassword(pass);
 			if(utilisateur.process()){
 				// Okay, c'est bon, on est identifié => ajout de utilisateur à la session, et redirection vers index.jsp
+				request.getSession().setAttribute("user", utilisateur);
+				response.sendRedirect("index.jsp");
 			} else {
 				// Il y a une erreur d'authentification => on reste sur la page de login avec un petit message d'erreur
 			}

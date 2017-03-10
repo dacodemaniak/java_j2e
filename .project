@@ -3,6 +3,7 @@
 	<name>MyResa</name>
 	<comment></comment>
 	<projects>
+		<project>Hello</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
