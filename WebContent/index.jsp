@@ -36,6 +36,7 @@ if(session.getAttribute("user") == null){%>
 							<th>Nom</th>
 							<th>Description</th>
 							<th>Nb. Places</th>
+							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -46,6 +47,18 @@ if(session.getAttribute("user") == null){%>
 								<td><%= spectacle.titre() %></td>
 								<td><%= spectacle.description() %></td>
 								<td><%= spectacle.placesDisponibles() %></td>
+								<td>
+									<div class="btn-group">
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Action <span class="caret"></span>
+										</button>
+										<!--  La liste des options possibles -->
+										<ul class="dropdown-menu">
+											<li><a href="updSpectacle.jsp?id=<%= spectacle.id() %>" title="Mettre à jour <%=spectacle.titre() %>"><i class="glyphicon glyphicon-pencil"></i> Mettre à jour</a></li>
+											<li><a href="#" title="Supprimer <%=spectacle.titre() %>" <%= spectacle.deleteAutorise() %>><i class="glyphicon glyphicon-trash"></i> Supprimer</a></li>
+										</ul>
+									</div>
+								</td>
 							</tr>
 					<%} // Fin de la boucle "for"
 					// Fin de la structure d'affichage des lignes %>
@@ -53,5 +66,29 @@ if(session.getAttribute("user") == null){%>
 				</table>
 			</div>
 		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<!-- Script pour la gestion de la suppression -->
+		<script charset="utf-8">
+			$("a.enabled").on("click",function(){
+				// Récupérons l'id du spectacle concerné
+				var idSpectacle = $(this).data("id");
+				console.log("L'utilisateur veut supprimer le spectacle n° : " + idSpectacle);
+				// Déclencher un appel Ajax pour la suppression
+				$.ajax({
+					url: "getSpectacle",
+					dataType: "json",
+					method: "post",
+					data: "id=" + idSpectacle,
+					contentType: "application/x-www-form-urlencoded; charset=utf-8",
+					success: function(result){
+						// Do what u want with result
+						console.log("vous avez demandé la suppression de : " + result.titre);
+					}
+					
+				});
+			})
+		</script>	
 	</body>
 </html>

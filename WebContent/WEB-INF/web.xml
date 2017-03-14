@@ -31,13 +31,28 @@
     <servlet-name>AddSpectacle</servlet-name>
     <url-pattern>/addSpectacle</url-pattern>
   </servlet-mapping>
-  
   <servlet>
-  	<servlet-name>AddReservation</servlet-name>
-  	<servlet-class>com.webprojet.web.ServletAddReservation</servlet-class>
+    <servlet-name>AddReservation</servlet-name>
+    <servlet-class>com.webprojet.web.ServletAddReservation</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>AddReservation</servlet-name>
-  	<url-pattern>/addReservation</url-pattern>
+    <servlet-name>AddReservation</servlet-name>
+    <url-pattern>/addReservation</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>UpdSpectacle</servlet-name>
+    <servlet-class>com.webprojet.web.ServletUpdSpectacle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdSpectacle</servlet-name>
+    <url-pattern>/updSpectacle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>GetSpectacle</servlet-name>
+  	<servlet-class>com.webprojet.web.ServletGetSpectacle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GetSpectacle</servlet-name>
+  	<url-pattern>/getSpectacle</url-pattern>
   </servlet-mapping>
 </web-app>
