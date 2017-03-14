@@ -1,6 +1,11 @@
 <%@page import="com.webprojet.reservation.spectacle.Spectacle"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+
+<%
+if(session.getAttribute("user") == null){%>
+	<jsp:forward page="login.jsp"></jsp:forward>
+<%}%>
 <jsp:useBean id="dateDuJour" class="com.webprojet.web.goodies.DateDuJour"></jsp:useBean>
 <jsp:useBean id="spectacles" class="com.webprojet.reservation.spectacle.Spectacles"></jsp:useBean>
 <!DOCTYPE html>
@@ -17,39 +22,35 @@
 					<%=dateDuJour.getDate() %>
 				</div>
 				<div class="col-lg-10 col-md-10 col-sm-6 col-xs-6">
-					<% 
-					if(session.getAttribute("user") == null){ // Session est la variable interne disponible en JSP%>
-						<p>Pas d'utilisateur authentifié => redirige vers login.jsp</p>
-						<jsp:forward page="login.jsp"></jsp:forward>
-					<%} else { %>
-						<jsp:useBean id="user" beanName="utilisateur" scope="session" type="com.webprojet.web.authentification.Utilisateur"></jsp:useBean>
-						<p>Bonjour <%=user.getNom() %></p>
-						</div>
-						
-						<!--  Ici, on peut lister les spectacles à partir d'un bean -->
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Description</th>
-									<th>Nb. Places</th>
-								</tr>
-							</thead>
-							<tbody>
-						<% //Début de la structure d'affichage des lignes
-							for(Spectacle spectacle : spectacles.spectacles()){
-								%>
-								<tr>
-									<td><%= spectacle.titre() %></td>
-									<td><%= spectacle.description() %></td>
-									<td><%= spectacle.placesDisponibles() %></td>
-								</tr>
-							<%} // Fin de la boucle "for"
-						// Fin de la structure d'affichage des lignes %>
-						</tbody>
-						</table>
-					<% } %>
+					<jsp:useBean id="user" beanName="utilisateur" scope="session" type="com.webprojet.web.authentification.Utilisateur"></jsp:useBean>
+					<p>Bonjour <%=user.getNom() %></p>
+				</div>
 				
+				<!-- Inclure le menu stocké dans une vue JSP -->
+				<jsp:include page="menu.jsp"></jsp:include>		
+				
+				<!--  Ici, on peut lister les spectacles à partir d'un bean -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Description</th>
+							<th>Nb. Places</th>
+						</tr>
+					</thead>
+					<tbody>
+					<% //Début de la structure d'affichage des lignes
+						for(Spectacle spectacle : spectacles.spectacles()){
+					%>
+							<tr>
+								<td><%= spectacle.titre() %></td>
+								<td><%= spectacle.description() %></td>
+								<td><%= spectacle.placesDisponibles() %></td>
+							</tr>
+					<%} // Fin de la boucle "for"
+					// Fin de la structure d'affichage des lignes %>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</body>
